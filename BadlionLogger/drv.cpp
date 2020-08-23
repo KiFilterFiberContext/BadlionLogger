@@ -35,7 +35,6 @@ NTSTATUS DriverEntry( PDRIVER_OBJECT driver_object, PUNICODE_STRING reg_path )
 	UNICODE_STRING dev_name = RTL_CONSTANT_STRING( L"\\Device\\BadlionLogger" );
 	UNICODE_STRING sym_path = RTL_CONSTANT_STRING( L"\\DosDevices\\BadlionLogger" );
 
-	// creating a device_object isn't necessary 
 	status = IoCreateDevice(
 		driver_object,
 		NULL,

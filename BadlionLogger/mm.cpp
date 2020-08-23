@@ -3,14 +3,15 @@
 
 namespace utils
 {
-	void mm::safer_write_memory( const PVOID address, const PVOID value, const size_t len )
+	// seems to not work on some occassions so the other solution is temporary
+	bool mm::safer_write_memory( const PVOID address, const PVOID value, const size_t len )
 	{
 		if ( !MmIsAddressValid( address ) )
-			return;
+			return false;
 
 		PMDL mdl = IoAllocateMdl( address, len, FALSE, FALSE, nullptr );
 		if ( nullptr == mdl )
-			return;
+			return false;
 
 		MmProbeAndLockPages( mdl, KernelMode, IoReadAccess );
 		const auto page = MmMapLockedPagesSpecifyCache( mdl, KernelMode, MmNonCached, nullptr, FALSE, NormalPagePriority );
@@ -23,9 +24,9 @@ namespace utils
 		MmUnlockPages( mdl );
 
 		IoFreeMdl( mdl );
+		return true;
 	}
 
-	// it's recommended not to flip CR0's WP bit as it can cause instability because of scheduling but safe_write_memory is for that purpose
 	void mm::unsafe_disable_protection( )
 	{
 		auto cr0 = __readcr0( );

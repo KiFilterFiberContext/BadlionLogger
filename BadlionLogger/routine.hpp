@@ -44,9 +44,8 @@ void load_image_callback( PUNICODE_STRING name, HANDLE pid, PIMAGE_INFO image_in
 				STRING func_name;
 				RtlInitAnsiString( &func_name, reinterpret_cast< PCSZ >( p_fname->Name ) );
 
-				// if you're wondering why there is a big block of if-else statements it's because switch statements cannot be done on strings
-				// and unfortunately I cannot use any stl map implementation because of kernel limitations AFAIK
-				// I could implement hashing but this is sufficient 
+				// kernel moment
+				// unsure whether I can use the stl since other projects have used it but for now this is sufficient
 
 				if ( !strcmp( func_name.Buffer, "ZwTerminateProcess" ) )
 					place_hook( &first_thunk->u1.Function, ZwTerminateProcess_hk );

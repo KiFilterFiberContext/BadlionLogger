@@ -6,8 +6,6 @@ using namespace utils;
 
 inline void place_hook( UINT64* addr, PVOID hook )
 {
-	// mm::safer_write_memory is definitely the better option but still need to work on it
-
 	mm::unsafe_disable_protection( );
 	*addr = reinterpret_cast< UINT64 >( hook );
 	mm::unsafe_enable_protection( );
