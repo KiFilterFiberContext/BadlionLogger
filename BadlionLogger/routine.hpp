@@ -11,11 +11,7 @@ void load_image_callback( PUNICODE_STRING name, HANDLE pid, PIMAGE_INFO image_in
 {
 	UNREFERENCED_PARAMETER( pid );
 
-	const UNICODE_STRING drv_name = 
-		RTL_CONSTANT_STRING( L"\\Device\\HarddiskVolume3\\Users\\G\\Desktop\\BadlionAnticheat.sys" );
-
-	// forgot to add this check the first time lol
-	if ( RtlCompareUnicodeString( name, &drv_name, FALSE ) )
+	if ( !wcsstr( name->Buffer, L"BadlionAnticheat.sys" ) )
 		return;
 
 	const auto base = reinterpret_cast< UINT64 >( image_info->ImageBase );
