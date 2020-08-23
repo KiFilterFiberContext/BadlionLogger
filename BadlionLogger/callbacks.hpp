@@ -4,13 +4,6 @@
 
 using namespace utils;
 
-inline void place_hook( UINT64* addr, PVOID hook )
-{
-	mm::unsafe_disable_protection( );
-	*addr = reinterpret_cast< UINT64 >( hook );
-	mm::unsafe_enable_protection( );
-}
-
 PVOID __stdcall MmGetSystemRoutineAddress_hk( PUNICODE_STRING routine )
 {
 	const auto ret = MmGetSystemRoutineAddress( routine );

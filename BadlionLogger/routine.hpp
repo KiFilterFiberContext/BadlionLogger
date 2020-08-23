@@ -45,31 +45,31 @@ void load_image_callback( PUNICODE_STRING name, HANDLE pid, PIMAGE_INFO image_in
 				RtlInitAnsiString( &func_name, reinterpret_cast< PCSZ >( p_fname->Name ) );
 
 				// kernel moment
-				// unsure whether I can use the stl since other projects have used it but for now this is sufficient
+				// having std map would be nice
 
 				if ( !strcmp( func_name.Buffer, "ZwTerminateProcess" ) )
-					place_hook( &first_thunk->u1.Function, ZwTerminateProcess_hk );
+					mm::unsafe_write_memory( &first_thunk->u1.Function, ZwTerminateProcess_hk );
 
 				else if ( !strcmp( func_name.Buffer, "MmGetSystemRoutineAddress" ) )
-					place_hook( &first_thunk->u1.Function, MmGetSystemRoutineAddress_hk );
+					mm::unsafe_write_memory( &first_thunk->u1.Function, MmGetSystemRoutineAddress_hk );
 
 				else if ( !strcmp( func_name.Buffer, "PsSetCreateProcessNotifyRoutineEx" ) )
-					place_hook( &first_thunk->u1.Function, PsSetCreateProcessNotifyRoutineEx_hk );
+					mm::unsafe_write_memory( &first_thunk->u1.Function, PsSetCreateProcessNotifyRoutineEx_hk );
 
 				else if ( !strcmp( func_name.Buffer, "PsSetLoadImageNotifyRoutine" ) )
-					place_hook( &first_thunk->u1.Function, PsSetLoadImageNotifyRoutine_hk );
+					mm::unsafe_write_memory( &first_thunk->u1.Function, PsSetLoadImageNotifyRoutine_hk );
 
 				else if ( !strcmp( func_name.Buffer, "RtlInitUnicodeString" ) )
-					place_hook( &first_thunk->u1.Function, RtlInitUnicodeString_hk );
+					mm::unsafe_write_memory( &first_thunk->u1.Function, RtlInitUnicodeString_hk );
 
 				else if ( !strcmp( func_name.Buffer, "PsLookupProcessByProcessId" ) )
-					place_hook( &first_thunk->u1.Function, PsLookupProcessByProcessId_hk );
+					mm::unsafe_write_memory( &first_thunk->u1.Function, PsLookupProcessByProcessId_hk );
 
 				else if ( !strcmp( func_name.Buffer, "IoCreateDevice" ) )
-					place_hook( &first_thunk->u1.Function, IoCreateDevice_hk );
+					mm::unsafe_write_memory( &first_thunk->u1.Function, IoCreateDevice_hk );
 
 				else if ( !strcmp( func_name.Buffer, "ZwOpenProcess" ) )
-					place_hook( &first_thunk->u1.Function, ZwOpenProcess_hk );
+					mm::unsafe_write_memory( &first_thunk->u1.Function, ZwOpenProcess_hk );
 
 				
 				++first_thunk;

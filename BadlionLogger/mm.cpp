@@ -3,7 +3,6 @@
 
 namespace utils
 {
-	// seems to not work on some occassions so the other solution is temporary
 	bool mm::safer_write_memory( const PVOID address, const PVOID value, const size_t len )
 	{
 		if ( !MmIsAddressValid( address ) )
@@ -27,23 +26,24 @@ namespace utils
 		return true;
 	}
 
-	void mm::unsafe_disable_protection( )
+	// ehh
+	void mm::unsafe_write_memory( UINT64* addr, PVOID hook )
 	{
-		auto cr0 = __readcr0( );
+		const auto aff = KeSetSystemAffinityThreadEx( 0 );
 
+		auto cr0 = __readcr0( );
 		cr0 &= 0xfffffffffffeffff;
 
 		__writecr0( cr0 );
 		_disable( );
-	}
-
-	void mm::unsafe_enable_protection( )
-	{
-		auto cr0 = __readcr0( );
+		
+		*addr = reinterpret_cast< UINT64 >( hook );
 
 		cr0 |= 0x10000;
 
 		_enable( );
 		__writecr0( cr0 );
+
+		KeSetSystemAffinityThreadEx( aff );
 	}
 }
