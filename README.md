@@ -3,10 +3,11 @@ BadlionLogger is a rudimentary PoC of a kernel driver used to monitor the activi
 
 # Examples
 ## DriverEntry
-<img src="https://i.imgur.com/W1O7wPR.png">
+
+<img src="https://imgur.com/W1O7wPR"/>
 
 ## CreateProcess callback
-<img src="https://i.imgur.com/WoJkeg1.png">
+<img src="https://imgur.com/WoJkeg1"/>
 
 # Note
 BadlionLogger is a proof-of-concept and is not fully complete.
